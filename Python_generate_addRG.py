@@ -1,4 +1,4 @@
-# Read sample names from a file
+# Read sample names from a file, example: WB10_MKDN240010405-1A_22F2GWLT4_L2.sort.noDups.bam
 with open('Bamlist_40samples_withoutDash.txt', 'r') as file:
     sample_files = [line.strip() for line in file.readlines()]
 
@@ -9,12 +9,12 @@ def generate_picard_command(sample_file):
     RGSM = parts[0]  # The first part is WB10 (RGSM)
     RGLB = parts[1]  # The second part is MKDN240010405-1A (RGLB)
     RGPL = "ILLUMINA"  # Assuming the platform is ILLUMINA
-    RGPU = RGSM + "_unit"  # Assuming RGPU is unit1
+    RGPU = RGSM + "_unit"  #unique arbitrary barcode
     RGID = RGSM + "_" + parts[2]
     
     # Constructing the output file name
     output_file = sample_file.replace(".bam", ".RG.bam")
-    input_file = sample_file.replace(".bam", ".rgOLD.bam")
+    input_file = sample_file.replace(".bam", ".bam")
     
     # Constructing the Picard command
     command = f"picard AddOrReplaceReadGroups -I {input_file} -O {output_file} --RGID {RGID} --RGLB {RGLB} --RGPL {RGPL} --RGSM {RGSM} --RGPU {RGPU}"
