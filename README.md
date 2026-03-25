@@ -24,7 +24,7 @@ All other necessary softwares are described in the .yml files (software versions
 4. Freebayes_parallel.sh
 
 
-# General comments
+## General comments
 All these scripts use parallelization. This implies that the cluster is processing multiple files at the same time in different 'jobs'. The amount of files that are being processed is specificied by specifying ```#SBATCH --ntasks=``` . After which, the amount of CPUs working on one particular file is specified in ```#SBATCH --cpus-per-task=``` . So as an example, if I specify the following:
 
 ```#SBATCH --ntasks=2```  
