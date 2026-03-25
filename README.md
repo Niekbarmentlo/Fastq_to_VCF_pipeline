@@ -32,4 +32,4 @@ All these scripts use parallelization. This implies that the cluster is processi
 
 Two files are assessed (or in the case of fastq files, 4 files, as fastq always comes in pairs) and in total 6 cpu's are used (3 x 2).
 
-To run the pipeline, you only have the assess the skeleton of the script (i.e. the ```#sbatch lines```) and specify the input directory (inputDir), outputDir and make some files including the name of your samples to be assessed. These sometimes are with file extensions (e.g. bamfile.bam) and sometimes without (e.g. bamfile), but it is specified in individual scripts. The Python_generate_add_RG.py script generates code to be run using Add_readgroups.sh, for convenience.
+To run the pipeline, you only have the assess the skeleton of the script (i.e. the ```#sbatch``` lines) and specify the input directory (inputDir), outputDir and make some files including the name of your samples to be assessed. These sometimes are with file extensions (e.g. bamfile.bam) and sometimes without (e.g. bamfile), but it is specified in individual scripts. The Python_generate_add_RG.py script generates code to be run using Add_readgroups.sh, for convenience.
