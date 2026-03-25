@@ -6,7 +6,7 @@ This bioinformatics pipeline is designed to trim and map reads, and variant call
 #### Standalone:
 - Miniconda: https://docs.anaconda.com/miniconda/install/#quick-command-line-install
 
-All other necessary softwares are described in the .yml files. Install software using:
+All other necessary softwares are described in the .yml files (software versions are outdated). Install software using:
 
 ```conda create -n Mapping```  
 ```conda activate Mapping```  
