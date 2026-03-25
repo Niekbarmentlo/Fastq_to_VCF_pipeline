@@ -1,0 +1,16 @@
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - bcftools=1.15.1
+  - gatk4=4.4.0.0
+  - bwa=0.7.17
+  - fastqc=0.12.1
+  - multiqc=1.16
+  - picard=3.1.0
+  - qualimap=2.2.2d
+  - samtools=1.15.1
+  - fastp=0.23.4
+  - bwa-mem2=2.2.1
+  - parallel
