@@ -27,6 +27,6 @@ outdir=/VCF
 
 cd ${outdir}
 
-freebayes-parallel <(fasta_generate_regions.py ${REF}.fai 100000) 20 -f ${REF} --use-best-n-alleles 4 --min-base-quality 10 --min-alternate-fraction 0.2 --haplotype-length 0 --ploidy 2 --min-alternate-count 2 -L ${BAMlist} | vcffilter -f 'QUAL > 20' | bgzip -c > ${outdir}/VCF_GWAS_40Latvia.vcf.gz
+freebayes-parallel <(fasta_generate_regions.py ${REF}.fai 100000) ${SLURM_NTASKS} -f ${REF} --use-best-n-alleles 4 --min-base-quality 10 --min-alternate-fraction 0.2 --haplotype-length 0 --ploidy 2 --min-alternate-count 2 -L ${BAMlist} | vcffilter -f 'QUAL > 20' | bgzip -c > ${outdir}/VCF_GWAS_40Latvia.vcf.gz
 
 
