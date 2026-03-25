@@ -1,5 +1,5 @@
 # Fastq_to_VCF_pipeline
-This bioinformatics pipeline is designed to trim and map reads, and variant call the output. The code is designed to be run on a high-performance cluster running on a Debian system, which one can interact with using SLURM. The scripts makes use of parallelization and multi-threading while working in Conda environments to avoid installing software directly on the HPC itself.
+This bioinformatics pipeline is designed to trim and map reads, and variant call the output. The code is designed to be run on a high-performance cluster running on a Debian system, which one can interact with using SLURM. The scripts make use of parallelization and multi-threading while operating in Conda environments to avoid installing software directly on the HPC itself.
 
 
 ## Installation
