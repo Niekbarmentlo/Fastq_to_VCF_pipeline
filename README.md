@@ -6,7 +6,30 @@ This bioinformatics pipeline is designed to trim and map reads, and variant call
 #### Standalone:
 - Miniconda: https://docs.anaconda.com/miniconda/install/#quick-command-line-install
 
-All other necessary softwares are described in the .yml files. Please use the code in the script CONDA_STUFF_Create.sh to create the environments with all software installed necessary for the other scripts.
+All other necessary softwares are described in the .yml files. Install software using:
 
-## General pipeline
-Please see for reference the diagram in FLOWCHART.pdf to see the order in which these scripts should be run. 
+```conda create -n Mapping```  
+```conda activate Mapping```  
+```conda config --add channels conda-forge```  
+```conda config --add channels bioconda```  
+```conda config --set channel_priority strict```  
+```conda env update --file Mapping_environment.yml``` 
+
+
+## Order pipeline:
+
+1. Trimm_reads.sh
+2. bwamem.sh
+3. Add_readgroups.sh
+4. Freebayes_parallel.sh
+
+
+# General comments
+All these scripts use parallelization. This implies that the cluster is processing multiple files at the same time in different 'jobs'. The amount of files that are being processed is specificied by specifying #SBATCH --ntasks= . After which, the amount of CPUs working on one particular file is specified in --cpus-per-task= . So as an example, if I specify the following:
+
+#SBATCH --ntasks=2
+#SBATCH --cpus-per-task=3
+
+Two files are assessed (or in the case of fastq files, 4 files, as fastq always comes in pairs) and in total 6 cpu's are used (3 x 2).
+
+Typically, you only have the assess the skeleton of the script (i.e. the #sbatch lines) and specify the input directory (inputDir), outputDir and make some files including the name of your samples to be assessed. These sometimes are with file extensions (e.g. bamfile.bam) and sometimes without (e.g. bamfile), but it is specified in individual scripts. 
