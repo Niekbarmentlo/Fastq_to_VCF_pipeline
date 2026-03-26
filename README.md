@@ -22,7 +22,13 @@ All other necessary softwares are described in the .yml files (software versions
 2. bwamem.sh
 3. Add_readgroups.sh
 4. Freebayes_parallel.sh
+5. VCF_processing.sh (optional, based on goal project)
 
+## Main Softwares
+- fastp
+- bwa-mem2
+- Picard (for removing PCR duplicates and adding read groups)
+- freebayes 
 
 ## General comments
 All these scripts use parallelization. This implies that the cluster is processing multiple files at the same time in different 'jobs'. The amount of files that are being processed is specificied by specifying ```#SBATCH --ntasks=``` . After which, the amount of CPUs working on one particular file is specified in ```#SBATCH --cpus-per-task=``` . So as an example, if I specify the following:
