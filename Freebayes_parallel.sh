@@ -27,6 +27,8 @@ outdir=/VCF
 
 cd ${outdir}
 
+#Comment: Note that we are not explicitely filtering for mapping quality. As freebayes is a haplotype-based caller, 
+#removing low quality bases compared to removing entire reads works better. The QUAL scores incorporates both mapping quality and base quality.
 freebayes-parallel <(fasta_generate_regions.py ${REF}.fai 100000) ${SLURM_NTASKS} -f ${REF} --use-best-n-alleles 4 --min-base-quality 10 --min-alternate-fraction 0.2 --haplotype-length 0 --ploidy 2 --min-alternate-count 2 -L ${BAMlist} | vcffilter -f 'QUAL > 20' | bgzip -c > ${outdir}/VCF_GWAS_40Latvia.vcf.gz
 
 
