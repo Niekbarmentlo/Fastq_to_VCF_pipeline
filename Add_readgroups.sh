@@ -16,7 +16,7 @@
 #SBATCH --nodes=1
 #-----------------------------Environment, Operations and Job steps----
 
-conda activate Mapping_5 #See the .yml at the end of this file
+conda activate Mapping #See the .yml at the end of this file
 
 InputDir=/Mapped_69Latvia/Mapped_samples_secondBatch/
 SAMPLES=Bamlist_samplesRG.txt #this file has a listing for each bam with the extension ".sort.noDups.RG.bam". The 'RG' part of the extension is added when running 'Add_readgroup.sh'
