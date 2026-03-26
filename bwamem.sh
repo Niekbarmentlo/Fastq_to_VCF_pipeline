@@ -22,11 +22,15 @@ inds=Sequenced_samples.txt #list of fastq files without extensions. E.g. 'Indivi
 refGenome=/ncbi_dataset/data/GCF_000003025.6/GCF_000003025.6_Sscrofa11.1_genomic.fna
 TMPDIRs_dir=/tmpdirs/SecondBatchthirdSet #directory for temporary files produced by samtools during the mapping step
 
-conda activate Mapping_5 #this environment should include samtools, picard, bwa-mem2,qualimap
+conda activate Mapping #this environment should include samtools, picard, bwa-mem2,qualimap
 
 cd $InputDir 
 
 #Map reads to the reference genome, Sort the output, 
+#Comment, note that the BWA-MEM2 command does not include the -R flag for adding readgroups. This has two reasons: 
+#1. The combination of GNU parallel function and the BWA-MEM2 -R flag gave errors. This might be an issue with the HPC I utelized, or an actual incompatibility.
+#2. I personally think the baseline BWA-MEM2 -R flag is limited in functionality compared to Picard. Note that Picard does require multiple read group flags to run, resulting in larger BAMs. 
+
 cat "${inds}" | parallel --verbose -j ${SLURM_NTASKS} --joblog runtask_mapping.log \
     "TMPDIR=\$(mktemp -d -p ${TMPDIRs_dir}) && \
     trap 'rm -rf \$TMPDIR' EXIT && \
