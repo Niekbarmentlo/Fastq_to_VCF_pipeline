@@ -23,7 +23,7 @@ SAMPLES=Bamlist_samplesRG.txt #this file has a listing for each bam with the ext
 TMPDIR=/tmpdirs/readgroup/
 #The script Add_readgroups.sh is a long script with a code line to modify each individual bam
 #a line might would look like this:
-#picard AddOrReplaceReadGroups -I <bamname.sort.noDups.bam> -O <bamname.sort.noDups.RG.bam> --RGID <sample_ID> --RGLB <libary_name> --RGPL <sequencing_platform> --RGSM <Sample_name> --RGPU <unique_arbitrary_barcode> --TMP_DIR "$TMPDIR"
+#picard AddOrReplaceReadGroups -I <bamname.sort.noDups.bam> -O <bamname.sort.noDups.RG.bam> --RGID <sample_ID> --RGLB <libary_name> --RGPL <sequencing_platform> --RGSM <sample_name> --RGPU <unique_arbitrary_barcode> --TMP_DIR "$TMPDIR"/<sample_ID>
 
 cd $InputDir
 
