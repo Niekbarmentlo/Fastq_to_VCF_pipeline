@@ -28,7 +28,7 @@ cd ${outdir}
 
 rtg vcfstats ${VCFin} > rtg_results_fullVCF.out
 
-vcftools --gzvcf ${VCFin} --remove-indels --recode --recode-INFO-all --stdout | bgzip -c > ${outdir}/${VCFout}
+bcftools view -m2 -M2 -v snps --no-version -Oz -o ${VCFout} ${VCFin} 
 tabix -p vcf ${VCFout}
 
 bcftools convert -R Keep_chromosome_contigs.bed --no-version -Oz -o ${VCFauto} ${VCFout}
