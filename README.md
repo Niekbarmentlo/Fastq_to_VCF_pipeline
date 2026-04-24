@@ -24,6 +24,8 @@ All other necessary softwares are described in the .yml files (software versions
 4. Freebayes_parallel.sh
 5. VCF_processing.sh (optional, based on goal project)
 
+Note, the pipeline expects all sbatch script to be in a separate scripts directory, away from any sequencing files. The pipeline will break if this is not the case. 
+
 ## Main Softwares
 - fastp
 - bwa-mem2
@@ -38,4 +40,14 @@ All these scripts use parallelization. This implies that the cluster is processi
 
 Two files are assessed (or in the case of fastq files, 4 files, as fastq always comes in pairs) and in total 6 cpu's are used (3 x 2).
 
-To run the pipeline, you only have the assess the skeleton of the script (i.e. the ```#sbatch``` lines) and specify the input directory (inputDir), outputDir and make some files including the name of your samples to be assessed. These sometimes are with file extensions (e.g. bamfile.bam) and sometimes without (e.g. bamfile), but it is specified in individual scripts. The Python_generate_add_RG.py script generates code to be run using Add_readgroups.sh, for convenience.
+To run the pipeline, you only have the assess the skeleton of the script (i.e. the ```#sbatch``` lines) and specify the input directory (inputDir), outputDir and make some files including the name of your samples to be assessed. These sometimes are with file extensions (e.g. bamfile.bam) and sometimes without (e.g. bamfile), but it is specified in individual scripts. The Python_generate_add_RG.py script generates code to be run using Add_readgroups.sh, for convenience.  
+
+## Adviced manual checks
+With any pipeline, there are certainly potential risks caused by either human or computational errors. Here I hightlight what I found to be important (sanitity) checks during the entire pipeline:
+
+1. Sequencing companies often do not deliver the amount of sequenced base pairs they promised. The fastqc command in this pipeline checks the trimmed fastq files. If any discrepancies arise between what the sequencing company promised and you observed, I advice running fastqc also on the untrimmed fastq files.
+2. The bwamem.sh script makes use of temporary directories which are created during the parallelization command. The goal is here to separate the streams of temporary files to avoid mismatching BAMs. I advice checking whether temporary files are actually being produced in all temporary directories.
+3. Compare the size of the .sort.bam and the .sort.nodups.bam files. They should be more or less the same size. If they are not, it might be worth checking whether you observe a lot of PCR duplicates in the .sort.bam files. You can do this by running ```qualimap bamqc``` on the .sort.bam files.
+4. The ```qualimap bamqc``` genome_results.txt files include a lot of information. In my opinion, it is most important to check the "mean coverageData", "number of mapped reads", "number of sequenced bases", the "mean mapping quality" and the coverage of the last chromosome (to assess whether the BAM contains all data). A helpful command for this is: ```find . -name "genome_results.txt" -exec grep -H "mean coverageData =" {} >> Genome_results_allBAMs.txt \;```
+5. When an High Performance Computing cluster crashes, it typically corrupts the outputted BAM. To check for this, you can assess whether you can index the BAM. Additionally running ```samtools quickcheck -v *.bam``` is useful. Note, this only works on "truncated BAMs". When adding read groups using Picard, BAMs DO NOT GET TRUNCATED (I learned this the hard way). When you expect potential HPC failure during the addition of read groups, run ```qualimap bamqc``` and check for coverage in ALL CONTIGS (not just whether mean coverage seems okay). 
+6. Run ```bcftools query -l <name>.vcf.gz``` to check the amount of samples in your VCF. If there is a mismatch, this is likely through either a corrupted BAM or a problem with the read groups.
